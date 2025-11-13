@@ -35,7 +35,7 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     image_url: '/shivamposter.jpeg', // Listing Poster
     banner_image_url: '/shivambanner.jpeg', // Detail Page Banner (for the ARZ style page)
     ticket_price: 999,
-    member_count: 9,
+    // member_count: 9,
     genre: 'acoustic',
     description: "Get ready for an unforgettable night as Shivam brings his soulful voice, raw emotion, and high-energy performance to the stage. One thing’s guaranteed: it’s going to be a night full of music, memories, and pure vibes.",
     includes: ["Concert Entry (General Admission)", "Exclusive Merch Discount Voucher (10%)", "Full Group Chat Access"],
@@ -54,7 +54,7 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     image_url: '/post.jpg', // Listing Poster
     banner_image_url: '/banner.jpg', // Detail Page Banner (This is the one for the screenshot you shared)
     ticket_price: 599,
-    member_count: 16,
+    // member_count: 16,
     genre: 'rock',
 description: "Post Malone fans, this one's for you, Delhi! 🎤 \
 Join us for the ultimate Post Malone Listening Party — featuring a live band performing his biggest hits from *Beerbongs & Bentleys* to *Hollywood’s Bleeding* and beyond. \

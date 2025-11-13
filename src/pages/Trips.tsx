@@ -425,176 +425,137 @@ export default function TripsPage({ onTripSelect, onChatOpen, currentUserId }: T
         </div>
       </div>
 
-      {/* Filter Drawer (No changes needed here) */}
+      {/* Filters modal (copied/adapted from EventsPage.tsx for mobile-friendly vertical layout) */}
       {showFilters && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
             onClick={() => setShowFilters(false)}
-            aria-hidden
-          />
+          ></div>
 
-          <div className="relative bg-white rounded-2xl w-[92%] md:w-[80%] lg:w-[70%] max-w-5xl mt-12 shadow-lg overflow-hidden">
-            <button
-              onClick={() => setShowFilters(false)}
-              className="absolute right-4 top-4 z-20 p-2 rounded-full bg-white border shadow-sm"
-              aria-label="Close filters"
-            >
-              <X size={18} />
-            </button>
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm mx-auto overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900">Filter by</h2>
+              <button
+                type="button"
+                className="rounded-md text-gray-400 hover:text-gray-900 transition-colors"
+                onClick={() => setShowFilters(false)}
+              >
+                <span className="sr-only">Close filters</span>
+                <X size={24} />
+              </button>
+            </div>
 
-            <div className="flex">
-              <div className="w-48 border-r border-gray-100 bg-gradient-to-r from-[#fdf2ee] to-white p-4">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Filter by</h3>
-                <nav className="space-y-2">
-                  {['sort', 'cost', 'duration', 'privacy', 'more'].map((tab) => (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveFilterTab(tab as any)}
-                      className={`w-full text-left px-3 py-2 rounded-lg ${activeFilterTab === tab ? 'bg-[var(--accent)]/10 text-[var(--accent)] font-semibold' : 'text-gray-800'}`}
-                    >
-                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                    </button>
-                  ))}
-                </nav>
+            <div className="p-5 overflow-y-auto max-h-[80vh] space-y-8">
+              {/* Sort By */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 text-gray-900">Sort By</h3>
+                {[{ key: 'popularity', label: 'Popularity' }, { key: 'cost_low', label: 'Cost : Low to High' }, { key: 'cost_high', label: 'Cost : High to Low' }, { key: 'date_upcoming', label: 'Upcoming Date' }].map(({ key, label }) => (
+                  <label key={key} className="flex items-center justify-between cursor-pointer group mb-2">
+                    <span className="text-gray-700 group-hover:text-gray-900">{label}</span>
+                    <input
+                      type="radio"
+                      name="sortBy"
+                      value={key}
+                      checked={sortBy === key}
+                      onChange={() => setSortBy(key as any)}
+                      className="form-radio h-4 w-4 border-gray-300 transition-colors duration-200 focus:ring-[var(--accent)] text-[var(--accent)]"
+                    />
+                  </label>
+                ))}
               </div>
-
-              <div className="flex-1 p-8">
-                {activeFilterTab === 'sort' && (
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4">Sort By</h4>
-                    <div className="space-y-3">
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="sort" checked={sortBy === 'popularity'} onChange={() => setSortBy('popularity')} />
-                        <span className="font-medium">Popularity (Group Size)</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="sort" checked={sortBy === 'cost_low'} onChange={() => setSortBy('cost_low')} />
-                        <span className="font-medium">Cost : Low to High</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="sort" checked={sortBy === 'cost_high'} onChange={() => setSortBy('cost_high')} />
-                        <span className="font-medium">Cost : High to Low</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="sort" checked={sortBy === 'date_upcoming'} onChange={() => setSortBy('date_upcoming')} />
-                        <span className="font-medium">Upcoming Date</span>
-                      </label>
-                    </div>
-                  </div>
-                )}
-
-                {activeFilterTab === 'cost' && (
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4">Estimated Cost Range (₹)</h4>
-                    <div className="flex items-center gap-4">
-                      <input
-                        type="number"
-                        value={costRange[0]}
-                        onChange={(e) => setCostRange([Math.max(0, Number(e.target.value)), costRange[1]])}
-                        className="w-24 px-3 py-2 border rounded-lg"
-                      />
-                      <span>-</span>
-                      <input
-                        type="number"
-                        value={costRange[1]}
-                        onChange={(e) => setCostRange([costRange[0], Math.max(costRange[0], Number(e.target.value))])}
-                        className="w-24 px-3 py-2 border rounded-lg"
-                      />
-                    </div>
-                    <p className="text-sm text-gray-500 mt-3">Filter based on the estimated cost per person.</p>
-                  </div>
-                )}
-
-                {activeFilterTab === 'duration' && (
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4">Trip Duration</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="duration" checked={durationFilter === 'any'} onChange={() => setDurationFilter('any')} />
-                        <span>Any Duration</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="duration" checked={durationFilter === 'short'} onChange={() => setDurationFilter('short')} />
-                        <span>Short Trips (Under 7 Days)</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="duration" checked={durationFilter === 'long'} onChange={() => setDurationFilter('long')} />
-                        <span>Long Trips (7+ Days)</span>
-                      </label>
-                    </div>
-                  </div>
-                )}
-
-                {activeFilterTab === 'privacy' && (
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4">Trip Privacy</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="privacy" checked={privacyFilter === 'all'} onChange={() => setPrivacyFilter('all')} />
-                        <span>All Trips</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="privacy" checked={privacyFilter === 'public'} onChange={() => setPrivacyFilter('public')} />
-                        <span>Public Trips</span>
-                      </label>
-                      <label className="flex items-center gap-3">
-                        <input type="radio" name="privacy" checked={privacyFilter === 'private'} onChange={() => setPrivacyFilter('private')} />
-                        <span>Private Trips</span>
-                      </label>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-3">Private trips may require an invitation to join.</p>
-                  </div>
-                )}
-
-                {activeFilterTab === 'more' && (
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4">More Filters</h4>
-                    <p className="text-sm text-gray-600 mb-3">Filter by activity type, transportation, or required gear.</p>
-
-                    <div className="flex gap-3 flex-wrap">
-                      <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                        <input type="checkbox" />
-                        <span className="text-sm">Hiking</span>
-                      </label>
-                      <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                        <input type="checkbox" />
-                        <span className="text-sm">Budget Friendly</span>
-                      </label>
-                      <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
-                        <input type="checkbox" />
-                        <span className="text-sm">Self-Drive</span>
-                      </label>
-                    </div>
-                  </div>
-                )}
-
-                <div className="mt-8 flex items-center justify-between">
-                  <button
-                    onClick={() => { clearAllFilters(); }}
-                    className="text-sm underline decoration-dotted text-gray-700"
-                  >
-                    Clear filters
-                  </button>
-
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => { setShowFilters(false); }}
-                      className="px-4 py-2 rounded-lg border"
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      onClick={() => { setShowFilters(false); }}
-                      className="px-8 py-3 rounded-2xl text-white text-lg font-semibold shadow"
-                      style={{ backgroundColor: 'var(--accent)' }}
-                    >
-                      Apply Filters ({filteredTrips.length})
-                    </button>
-                  </div>
+              {/* Cost Range */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 text-gray-900">Estimated Cost Range (₹)</h3>
+                <div className="flex items-center gap-4 mb-2">
+                  <input
+                    type="number"
+                    value={costRange[0]}
+                    onChange={(e) => setCostRange([Math.max(0, Number(e.target.value)), costRange[1]])}
+                    className="w-24 px-3 py-2 border rounded-lg"
+                  />
+                  <span>-</span>
+                  <input
+                    type="number"
+                    value={costRange[1]}
+                    onChange={(e) => setCostRange([costRange[0], Math.max(costRange[0], Number(e.target.value))])}
+                    className="w-24 px-3 py-2 border rounded-lg"
+                  />
+                </div>
+                <p className="text-sm text-gray-500">Filter based on the estimated cost per person.</p>
+              </div>
+              {/* Duration */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 text-gray-900">Trip Duration</h3>
+                {[{ key: 'any', label: 'Any Duration' }, { key: 'short', label: 'Short Trips (Under 7 Days)' }, { key: 'long', label: 'Long Trips (7+ Days)' }].map(({ key, label }) => (
+                  <label key={key} className="flex items-center justify-between cursor-pointer group mb-2">
+                    <span className="text-gray-700 group-hover:text-gray-900">{label}</span>
+                    <input
+                      type="radio"
+                      name="duration"
+                      value={key}
+                      checked={durationFilter === key}
+                      onChange={() => setDurationFilter(key as any)}
+                      className="form-radio h-4 w-4 border-gray-300 transition-colors duration-200 focus:ring-[var(--accent)] text-[var(--accent)]"
+                    />
+                  </label>
+                ))}
+              </div>
+              {/* Privacy */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 text-gray-900">Trip Privacy</h3>
+                {[{ key: 'all', label: 'All Trips' }, { key: 'public', label: 'Public Trips' }, { key: 'private', label: 'Private Trips' }].map(({ key, label }) => (
+                  <label key={key} className="flex items-center justify-between cursor-pointer group mb-2">
+                    <span className="text-gray-700 group-hover:text-gray-900">{label}</span>
+                    <input
+                      type="radio"
+                      name="privacy"
+                      value={key}
+                      checked={privacyFilter === key}
+                      onChange={() => setPrivacyFilter(key as any)}
+                      className="form-radio h-4 w-4 border-gray-300 transition-colors duration-200 focus:ring-[var(--accent)] text-[var(--accent)]"
+                    />
+                  </label>
+                ))}
+                <p className="text-sm text-gray-500 mt-2">Private trips may require an invitation to join.</p>
+              </div>
+              {/* More Filters (static for now) */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 text-gray-900">More Filters</h3>
+                <p className="text-sm text-gray-600 mb-3">Filter by activity type, transportation, or required gear.</p>
+                <div className="flex gap-3 flex-wrap">
+                  <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                    <input type="checkbox" />
+                    <span className="text-sm">Hiking</span>
+                  </label>
+                  <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                    <input type="checkbox" />
+                    <span className="text-sm">Budget Friendly</span>
+                  </label>
+                  <label className="flex items-center gap-2 px-3 py-2 border rounded-lg">
+                    <input type="checkbox" />
+                    <span className="text-sm">Self-Drive</span>
+                  </label>
                 </div>
               </div>
+            </div>
+
+            <div className="flex justify-between items-center p-5 border-t border-gray-100">
+              <button
+                type="button"
+                className="text-sm font-semibold text-gray-600 hover:text-gray-900 px-4 py-2"
+                onClick={clearAllFilters}
+              >
+                Clear filters
+              </button>
+              <button
+                type="button"
+                className="px-6 py-3 rounded-lg text-white font-semibold transition-colors shadow-md"
+                style={{ backgroundColor: 'var(--accent)' }}
+                onClick={() => setShowFilters(false)}
+              >
+                Apply Filters
+              </button>
             </div>
           </div>
         </div>

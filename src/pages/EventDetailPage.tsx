@@ -336,10 +336,10 @@ export default function EventDetailPage({
                   <span className="font-semibold text-sm">Duration</span>
                   <span className="text-gray-500 text-sm">4 hr</span>
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <span className="font-semibold text-sm">Members</span>
                   <span className="text-gray-500 text-sm">{currentEvent.member_count?.toLocaleString() ?? 'Many'} joined</span>
-                </div>
+                </div> */}
               </div>
 
               <button
@@ -352,7 +352,7 @@ export default function EventDetailPage({
                 {owned ? 'Ticket Owned' : bookingCtaText}
               </button>
 
-              <div className="mt-4 text-xs text-center text-gray-500">They've already joined: Male • Female</div>
+              {/* <div className="mt-4 text-xs text-center text-gray-500">They've already joined: Male • Female</div> */}
             </aside>
 
             <section className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
