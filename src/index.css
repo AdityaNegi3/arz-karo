@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import League Spartan */
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Apply League Spartan globally */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'League Spartan', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: 'League Spartan', sans-serif !important;
+}
+
+/* Prevent small hairline seams */
+.hero-bg,
+.hero-bg::before {
+  position: relative;
+}
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+}
+
+/* Prevent margin collapse */
+.hero > * {
+  margin-top: 0 !important;
+}
+
+/* Neutralize header borders */
+header,
+.header,
+.navbar,
+.site-header,
+.header-wrapper {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  background-clip: padding-box;
+}
+
+/* Remove hr default */
+hr {
+  border: none;
+  height: 0;
+  margin: 0;
+}
+
+/* Safe area */
+.safe-bottom {
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+.safe-top {
+  padding-top: calc(1rem + env(safe-area-inset-top));
+}
+
+/* Theme variables */
+:root {
+  --accent: #FF785A;
+  --accent-2: #FFB199;
+  --muted: #6b7280;
+  --card-shadow: 0 10px 30px rgba(15,23,42,0.06);
+  --soft-shadow: 0 6px 20px rgba(2,6,23,0.04);
+  --glass: rgba(255,255,255,0.85);
+}
+
+/* Airbnb-style card */
+.airbnb-card {
+  box-shadow: var(--card-shadow);
+  border-radius: 16px;
+  background: white;
+  overflow: hidden;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(255,120,90,0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(255,120,90,0.14);
+}
+
+.btn-outline {
+  border: 1px solid rgba(99,102,241,0.08);
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+}
+
+/* Section divider */
+.section-divider {
+  border-top: 1px solid #eef2f6;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+}
+
+/* Accessibility focus */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,120,90,0.12);
+  border-radius: 8px;
+}
+
+/* Improve visual rendering */
+img, picture, video {
+  display: block;
+  max-width: 100%;
+  -webkit-font-smoothing: antialiased;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Prevent micro-gaps */
+.bg-cover-fix {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Debug helper */
+/*
+.debug-outline * {
+  outline: 1px dashed rgba(255,0,0,0.12);
+}
+*/
