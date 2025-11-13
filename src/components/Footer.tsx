@@ -96,17 +96,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           </a>
 
           {/* LinkedIn - UNLINKED (as requested) */}
-          <svg
-            className="w-6 h-6 sm:w-7 sm:h-7 hover:text-black cursor-pointer transition-colors"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M16 8a4 4 0 0 0-4-4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h7a4 4 0 0 0 4-4v-5h4V8z" />
-          </svg>
+         
 
           {/* YouTube was removed */}
         </div>
