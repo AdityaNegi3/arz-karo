@@ -1,4 +1,3 @@
-// src/pages/TripsPage.tsx
 import React, { useEffect, useState } from 'react';
 import { Search, MapPin, Users, Calendar, X, Globe } from 'lucide-react';
 // Import Framer Motion
@@ -230,45 +229,53 @@ export default function TripsPage({ onTripSelect, onChatOpen, currentUserId }: T
             </div>
           </div>
 
-          {/* Quick selects */}
-          <div className="mb-6 flex flex-col md:flex-row gap-3 items-center">
-            <select
-              value={selectedDestination}
-              onChange={(e) => setSelectedDestination(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent"
-            >
-              <option value="all">All Destinations</option>
-              {uniqueDestinations.map((destination) => (
-                <option key={destination} value={destination}>
-                  {destination}
-                </option>
-              ))}
-            </select>
+          {/* Quick selects - MODIFIED FOR SINGLE-LINE MOBILE VIEW */}
+          <div className="mb-6 flex flex-col gap-3">
+            {/* Row 1: Destinations, Filters, Clear (All on one line for mobile) */}
+            <div className="flex items-center gap-3 w-full"> 
+                {/* Destination Dropdown */}
+                <select
+                    value={selectedDestination}
+                    onChange={(e) => setSelectedDestination(e.target.value)}
+                    // Removed w-full on mobile so it can sit beside the other buttons
+                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent"
+                >
+                    <option value="all">All Destinations</option>
+                    {uniqueDestinations.map((destination) => (
+                        <option key={destination} value={destination}>
+                            {destination}
+                        </option>
+                    ))}
+                </select>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowFilters(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-colors bg-white"
-                aria-label="Filters"
-              >
-                <svg style={{ width: 18, height: 18 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l7 9v7l6-3v-4l7-9z" /></svg>
-                <span className="font-medium">Filters</span>
-              </button>
+                {/* Filters Button */}
+                <button
+                    onClick={() => setShowFilters(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-colors bg-white flex-shrink-0"
+                    aria-label="Filters"
+                >
+                    <svg style={{ width: 18, height: 18 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 3H2l7 9v7l6-3v-4l7-9z" /></svg>
+                    <span className="font-medium">Filters</span>
+                </button>
 
-              <button
-                onClick={() => clearAllFilters()}
-                className="px-3 py-2 text-sm border border-dashed border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50"
-                aria-label="Clear filters"
-              >
-                Clear
-              </button>
+                {/* Clear Button */}
+                <button
+                    onClick={() => clearAllFilters()}
+                    className="px-3 py-2 text-sm border border-dashed border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 flex-shrink-0"
+                    aria-label="Clear filters"
+                >
+                    Clear
+                </button>
             </div>
-
-            <div className="ml-auto flex items-center gap-3">
+            
+            {/* Row 2: Popular/Upcoming Buttons (Pushed to the end/next line on mobile) */}
+            <div className="flex items-center gap-3 self-end md:self-auto md:ml-auto md:flex-row">
               <button onClick={() => { setSortBy('popularity'); }} className={`px-3 py-2 rounded-lg text-sm ${sortBy === 'popularity' ? 'bg-[var(--accent)] text-white' : 'border'}`}>Popular</button>
               <button onClick={() => { setSortBy('date_upcoming'); }} className={`px-3 py-2 rounded-lg text-sm ${sortBy === 'date_upcoming' ? 'bg-[var(--accent)] text-white' : 'border'}`}>Upcoming</button>
             </div>
           </div>
+          {/* END MODIFIED QUICK SELECTS */}
+
 
           {/* Destinations row */}
           <div className="mb-8">
