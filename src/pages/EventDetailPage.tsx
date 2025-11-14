@@ -1,6 +1,6 @@
 // src/pages/EventDetailPage.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, Calendar, MapPin, X } from 'lucide-react'; // Added X for close button
+import { ChevronLeft, Calendar, MapPin, X, Clock } from 'lucide-react'; // Added Clock for time
 import Forms from '../components/Form'; 
 
 // Minimal mock artists (ensure your public images exist) - UPDATED WITH CORRECT INSTAGRAM URLS
@@ -32,6 +32,8 @@ export type Event = {
   map_embed_url?: string; 
   // NEW: Optional field for the image gallery
   gallery_images?: string[]; 
+  // ADDED: Optional field for the event time range
+  event_time_range?: string; 
 };
 
 // UPDATED Artist type
@@ -254,7 +256,7 @@ export default function EventDetailPage({
   return (
     <div style={{ ['--accent' as any]: ACCENT } as React.CSSProperties} className="min-h-screen bg-white text-gray-900">
 
-      {/* HERO (Unchanged) */}
+      {/* HERO (Updated with event_time_range) */}
       <section className="relative h-[220px] md:h-[320px] lg:h-[480px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -283,6 +285,10 @@ export default function EventDetailPage({
               <div className="mt-1 text-sm md:text-xl font-medium text-white/90">by {formattedArtistNames}</div>
               <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs md:text-sm font-medium text-white/80">
                 <span className="inline-flex items-center gap-1"><Calendar size={14} /> {formattedDate}</span>
+                {/* NEW: Display Time Range if available */}
+                {currentEvent.event_time_range && (
+                  <span className="inline-flex items-center gap-1"><Clock size={14} /> {currentEvent.event_time_range}</span>
+                )}
                 <span className="inline-flex items-center gap-1"><MapPin size={14} /> {currentEvent.venue}, {currentEvent.city}</span>
                 <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px] md:text-xs font-semibold">18+</span>
               </div>

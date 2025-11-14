@@ -13,6 +13,8 @@ export type MockEventItem = Omit<Event, 'artist_name'> & {
   map_embed_url?: string; // Optional: Google Maps Embed URL for the venue
   // NEW FIELD for image gallery
   gallery_images?: string[]; 
+  // ADDED: Optional field for the time range
+  event_time_range?: string; 
 };
 
 // --- MOCK ARTISTS (For EventsPage & Artist Profiles) ---
@@ -52,6 +54,8 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     city: 'Gurugram',
     venue: 'Venue to be announced', // <--- Back to a clear placeholder for testing unannounced state
     event_date: new Date("2025-12-06T00:00:00Z").toISOString(),
+    // ADDED: Event Time Range
+    event_time_range: '6:00 PM - 10:00 PM',
     image_url: '/post.jpg', // Listing Poster
     banner_image_url: '/banner.jpg', // Detail Page Banner (This is the one for the screenshot you shared)
     ticket_price: 599,

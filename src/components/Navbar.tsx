@@ -135,9 +135,6 @@ export default function Navbar({
                   <User size={20} className="text-gray-600" />
                 </div>
               )}
-              <span className="text-base font-semibold text-gray-900">
-                {profile?.username}
-              </span>
             </button>
           ) : (
             <button
@@ -240,7 +237,6 @@ export default function Navbar({
                   </div>
                 )}
                 <div className="text-left">
-                  <div className="font-semibold">{profile?.username}</div>
                   <div className="text-sm text-gray-600">View profile</div>
                 </div>
               </button>
