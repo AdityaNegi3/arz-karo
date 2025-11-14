@@ -181,12 +181,12 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 **z-50** flex items-end md:items-center justify-center" aria-modal="true" role="dialog">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center" aria-modal="true" role="dialog">
       <div className="absolute inset-0 bg-black/40" onClick={() => !loading && onClose()} />
 
       <form
         onSubmit={submitHandler}
-        className="relative w-full max-w-md bg-white rounded-t-xl md:rounded-xl shadow-2xl p-6 m-4 md:m-0 flex flex-col"
+        className="relative w-full max-w-md bg-white rounded-t-xl md:rounded-xl shadow-2xl p-6 **mx-auto mb-0 md:mb-0** flex flex-col"
       >
         <h3 className="text-lg font-bold mb-2">Complete your booking</h3>
         <p className="text-sm text-gray-500 mb-4">Enter your details to continue to payment</p>
@@ -234,11 +234,11 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
 
         {err && <div className="text-sm text-red-600 mb-2">{err}</div>}
 
-        <div className="mt-2 flex **flex-col sm:flex-row** items-center gap-3">
+        <div className="mt-2 flex flex-col sm:flex-row items-center gap-3">
           <button
             type="submit"
             disabled={submitting || loading}
-            className="**w-full sm:flex-1** px-4 py-2 rounded-lg bg-[var(--accent)] text-white font-semibold disabled:opacity-60"
+            className="w-full sm:flex-1 px-4 py-2 rounded-lg bg-[var(--accent)] text-white font-semibold disabled:opacity-60"
             style={{ backgroundColor: 'var(--accent)' }}
           >
             {loading || submitting ? 'Processing…' : `Pay ${amountINR} INR`}
@@ -247,7 +247,7 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
           <button
             type="button"
             onClick={() => !loading && onClose()}
-            className="**w-full sm:w-auto** px-4 py-2 rounded-lg border border-gray-200 bg-white"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg border border-gray-200 bg-white"
           >
             Cancel
           </button>
