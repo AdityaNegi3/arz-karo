@@ -33,6 +33,7 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     city: 'Gurugram',
     venue: 'The Vibe Lounge', // <--- CHANGED to a real venue name for testing announced state
     event_date: new Date("2025-12-30T00:00:00.000Z").toISOString(),
+    event_time_range: '9:00 PM - 11:00 PM',
     image_url: '/shivamposter.jpeg', // Listing Poster
     banner_image_url: '/shivambanner.jpeg', // Detail Page Banner (for the ARZ style page)
     ticket_price: 999,

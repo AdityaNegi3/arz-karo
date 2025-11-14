@@ -2,11 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- ✅ Updated favicon to logo.png -->
+
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="/3.png" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- IMPORTANT: enable viewport-fit so env(safe-area-inset-*) works on iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!-- Theme color for mobile UI -->
+    <meta name="theme-color" content="#ffffff" />
+
     <title>Arz Ticketing Platform Development</title>
+
+    <!-- Preconnect to Google Fonts for faster font load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- League Spartan (fallback to system sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <!-- optional: helpful for SPAs served from a subpath -->
     <base href="/" />
