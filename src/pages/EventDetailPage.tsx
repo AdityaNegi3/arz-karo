@@ -3,16 +3,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, Calendar, MapPin, X } from 'lucide-react'; // Added X for close button
 import Forms from '../components/Form'; 
 
-// Minimal mock artists (ensure your public images exist)
+// Minimal mock artists (ensure your public images exist) - UPDATED WITH CORRECT INSTAGRAM URLS
 const MOCK_ARTISTS_DATA = [
-  { name: 'Shivam', image_url: '/shivam1.jpeg' },
-  { name: 'Niyam', image_url: '/niyam1.jpeg' },
-  { name: 'Kinshu', image_url: '/mockArtist3.jpg' },
-  { name: 'Rajat', image_url: '/mockArtist4.jpg' },
-  { name: 'Raahi', image_url: '/mockArtist5.jpg' },
-  { name: 'Gauntlet', image_url: '/mockArtist6.jpg' },
-
-  { name: 'DJ Maverick', image_url: '/mockArtist8.jpg' },
+  { name: 'Shivam', image_url: '/shivam1.jpeg', instagram_url: 'https://www.instagram.com/shivamwaswanimusic/?igsh=MTlqMTIyNHdmZmMxOA%3D%3D#' },
+  { name: 'Niyam', image_url: '/niyam1.jpeg', instagram_url: 'https://www.instagram.com/niyamszn?igsh=MTRjbzJteTFvOWI4YQ==' },
+  { name: 'Kinshu', image_url: '/mockArtist3.jpg', instagram_url: 'https://www.instagram.com/kinshu_dj/' },
+  { name: 'Rajat', image_url: '/mockArtist4.jpg', instagram_url: 'https://www.instagram.com/rajatofficial/' },
+  { name: 'Raahi', image_url: '/mockArtist5.jpg', instagram_url: 'https://www.instagram.com/raahi_band/' },
+  { name: 'Gauntlet', image_url: '/mockArtist6.jpg', instagram_url: 'https://www.instagram.com/gauntlet_official/' },
+  { name: 'DJ Maverick', image_url: '/mockArtist8.jpg', instagram_url: 'https://www.instagram.com/djmaverick_official/' },
 ];
 
 export type Event = {
@@ -35,9 +34,11 @@ export type Event = {
   gallery_images?: string[]; 
 };
 
+// UPDATED Artist type
 export type Artist = {
   name: string;
   image_url: string;
+  instagram_url?: string; // Added optional Instagram URL
 };
 
 const ACCENT = '#FF785A';
@@ -62,6 +63,7 @@ const FaqItem = ({ question, answer }: { question: string; answer: string }) => 
 
 const getArtistsFromEvent = (event: Event): Artist[] => {
   const names = Array.isArray(event.artist_name) ? event.artist_name : [event.artist_name];
+  // Filter MOCK_ARTISTS_DATA based on names
   return MOCK_ARTISTS_DATA.filter((artist) => names.includes(artist.name));
 };
 
@@ -103,7 +105,7 @@ const ReadMoreText = ({ text }: { text: string }) => {
 // ------------------------------------
 
 // ------------------------------------
-// NEW: Image Modal Component
+// NEW: Image Modal Component (Unchanged)
 // ------------------------------------
 const ImageModal = ({ imageUrl, onClose }: { imageUrl: string | null; onClose: () => void }) => {
   if (!imageUrl) return null;
@@ -209,7 +211,7 @@ export default function EventDetailPage({
   "Tickets and add-ons will be confirmed only once full payment is received before the Due Date. Failure to pay will result in cancellation of the reservation and forfeiture of the initial 50% payment.",
 ];
 
-  // --- Map Component Logic ---
+  // --- Map Component Logic (Unchanged) ---
   const isVenuePlaceholder = currentEvent.venue.toLowerCase().includes('announced soon') 
     || currentEvent.venue.toLowerCase().includes('venue to be announced'); 
 
@@ -252,7 +254,7 @@ export default function EventDetailPage({
   return (
     <div style={{ ['--accent' as any]: ACCENT } as React.CSSProperties} className="min-h-screen bg-white text-gray-900">
 
-      {/* HERO */}
+      {/* HERO (Unchanged) */}
       <section className="relative h-[220px] md:h-[320px] lg:h-[480px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -299,7 +301,7 @@ export default function EventDetailPage({
               <ReadMoreText text={currentEvent.description} />
             </section>
             
-            {/* NEW: Image Gallery Section - Updated with onClick handler */}
+            {/* NEW: Image Gallery Section (Unchanged) */}
             {hasGalleryImages && (
               <section className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                 <h3 className="text-2xl font-bold mb-4">Event Glimpses</h3>
@@ -328,18 +330,22 @@ export default function EventDetailPage({
 
                 <div className="flex gap-6 justify-start overflow-x-auto pb-2 -mx-2 md:mx-0 md:flex-wrap md:overflow-visible">
                   {artists.map((artist) => (
-                    <div
+                    // WRAPPED the artist card in an <a> tag to link to Instagram
+                    <a
                       key={artist.name}
-                      className="flex flex-col items-center text-center px-2 min-w-[92px] md:min-w-0 md:max-w-[120px]"
+                      href={artist.instagram_url} // Use the new Instagram URL
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col items-center text-center px-2 min-w-[92px] md:min-w-0 md:max-w-[120px] group transition-opacity hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-lg"
                     >
                       <img
                         src={artist.image_url}
                         alt={artist.name}
-                        className="w-20 h-20 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-100 shadow-md"
+                        className="w-20 h-20 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-100 shadow-md group-hover:border-[var(--accent)] transition-all"
                       />
-                      <p className="mt-2 text-sm font-semibold text-gray-800">{artist.name}</p>
+                      <p className="mt-2 text-sm font-semibold text-gray-800 group-hover:text-[var(--accent)]">{artist.name}</p>
                       <p className="text-xs text-gray-500">Artist</p>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </section>
@@ -384,7 +390,7 @@ export default function EventDetailPage({
             </section>
           </div>
 
-          {/* RIGHT COLUMN */}
+          {/* RIGHT COLUMN (Unchanged) */}
           <div className="md:col-span-1 space-y-8">
             <aside className="hidden md:block sticky top-6 bg-white rounded-xl p-6 shadow-2xl border border-gray-100">
               <div className="flex items-baseline justify-between">
@@ -445,7 +451,7 @@ export default function EventDetailPage({
         </div>
       </main>
 
-      {/* MOBILE CTA */}
+      {/* MOBILE CTA (Unchanged) */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.08)] safe-bottom">
         <div className="flex items-center justify-between gap-4">
           <div className="flex-shrink-0">
@@ -466,7 +472,7 @@ export default function EventDetailPage({
         <div style={{ height: 'env(safe-area-inset-bottom)' }} />
       </div>
 
-      {/* Forms modal (opens Razorpay on submit) */}
+      {/* Forms modal (opens Razorpay on submit) (Unchanged) */}
       <Forms
         open={showForm}
         amountINR={price}
@@ -482,7 +488,7 @@ export default function EventDetailPage({
         }}
       />
       
-      {/* NEW: Image Modal rendering */}
+      {/* NEW: Image Modal rendering (Unchanged) */}
       <ImageModal 
         imageUrl={selectedImage}
         onClose={() => setSelectedImage(null)} // Close function
