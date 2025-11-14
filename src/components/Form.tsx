@@ -181,7 +181,7 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-60 flex items-end md:items-center justify-center" aria-modal="true" role="dialog">
+    <div className="fixed inset-0 **z-50** flex items-end md:items-center justify-center" aria-modal="true" role="dialog">
       <div className="absolute inset-0 bg-black/40" onClick={() => !loading && onClose()} />
 
       <form
@@ -234,11 +234,11 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
 
         {err && <div className="text-sm text-red-600 mb-2">{err}</div>}
 
-        <div className="mt-2 flex items-center gap-3">
+        <div className="mt-2 flex **flex-col sm:flex-row** items-center gap-3">
           <button
             type="submit"
             disabled={submitting || loading}
-            className="flex-1 px-4 py-2 rounded-lg bg-[var(--accent)] text-white font-semibold disabled:opacity-60"
+            className="**w-full sm:flex-1** px-4 py-2 rounded-lg bg-[var(--accent)] text-white font-semibold disabled:opacity-60"
             style={{ backgroundColor: 'var(--accent)' }}
           >
             {loading || submitting ? 'Processing…' : `Pay ${amountINR} INR`}
@@ -247,7 +247,7 @@ export default function Forms({ open, amountINR, eventId, onClose, onPaymentSucc
           <button
             type="button"
             onClick={() => !loading && onClose()}
-            className="px-4 py-2 rounded-lg border border-gray-200 bg-white"
+            className="**w-full sm:w-auto** px-4 py-2 rounded-lg border border-gray-200 bg-white"
           >
             Cancel
           </button>
