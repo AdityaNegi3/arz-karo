@@ -31,7 +31,8 @@ export default function Thankyou() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+    // ✨ CHANGED: items-center to items-start and added pt-24 (padding-top)
+    <div className="min-h-screen flex items-start justify-center bg-gray-50 p-6 pt-24">
       <div className="max-w-xl w-full bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-2xl font-bold mb-2">Thank you for your purchase!</h1>
         <p className="text-sm text-gray-600 mb-4">
