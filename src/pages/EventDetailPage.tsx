@@ -1,6 +1,6 @@
 // src/pages/EventDetailPage.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, Calendar, MapPin } from 'lucide-react';
+import { ChevronLeft, Calendar, MapPin, X } from 'lucide-react'; // Added X for close button
 import Forms from '../components/Form'; 
 
 // Minimal mock artists (ensure your public images exist)
@@ -102,6 +102,39 @@ const ReadMoreText = ({ text }: { text: string }) => {
 };
 // ------------------------------------
 
+// ------------------------------------
+// NEW: Image Modal Component
+// ------------------------------------
+const ImageModal = ({ imageUrl, onClose }: { imageUrl: string | null; onClose: () => void }) => {
+  if (!imageUrl) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+      onClick={onClose} // Close on backdrop click
+    >
+      <div 
+        className="relative max-w-full max-h-full"
+        onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside image container
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/30 text-white backdrop-blur-sm hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-white"
+          aria-label="Close image gallery"
+        >
+          <X size={24} />
+        </button>
+        <img
+          src={imageUrl}
+          alt="Enlarged Event Glimpse"
+          className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+        />
+      </div>
+    </div>
+  );
+};
+// ------------------------------------
+
 
 export default function EventDetailPage({
   event,
@@ -117,6 +150,8 @@ export default function EventDetailPage({
   const [owned, setOwned] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  // NEW: State for the modal
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const artists = getArtistsFromEvent(currentEvent);
   const formattedArtistNames = artists.map((a) => a.name).join(', ');
@@ -264,20 +299,24 @@ export default function EventDetailPage({
               <ReadMoreText text={currentEvent.description} />
             </section>
             
-            {/* NEW: Image Gallery Section - Renders only if gallery_images is present */}
+            {/* NEW: Image Gallery Section - Updated with onClick handler */}
             {hasGalleryImages && (
               <section className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                 <h3 className="text-2xl font-bold mb-4">Event Glimpses</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {currentEvent.gallery_images!.map((image, index) => (
-                    <div key={index} className="aspect-square overflow-hidden rounded-lg shadow-md hover:opacity-90 transition duration-300">
+                    <button // Use button for accessibility and clickability
+                      key={index}
+                      onClick={() => setSelectedImage(image)} // Set the image URL to open the modal
+                      className="aspect-square overflow-hidden rounded-lg shadow-md hover:opacity-90 transition duration-300 focus:outline-none focus:ring-4 focus:ring-[var(--accent)]"
+                    >
                       <img
                         src={image}
                         alt={`Event image ${index + 1}`}
                         className="w-full h-full object-cover"
                         loading="lazy"
                       />
-                    </div>
+                    </button>
                   ))}
                 </div>
               </section>
@@ -441,6 +480,12 @@ export default function EventDetailPage({
           console.log('Payment success:', razorpayResp, buyer);
           // TODO: send razorpayResp to your backend to verify & store order
         }}
+      />
+      
+      {/* NEW: Image Modal rendering */}
+      <ImageModal 
+        imageUrl={selectedImage}
+        onClose={() => setSelectedImage(null)} // Close function
       />
 
       <style>{`
