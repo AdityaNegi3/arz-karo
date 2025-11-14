@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import ProfileSidebar from '../components/ProfileSidebar';
 import ProfileModal from '../components/ProfileModal';
 
-const DEFAULT_AVATAR_URL = 'https://placehold.co/100x100/FF785A/ffffff?text=AV';
+const DEFAULT_AVATAR_URL = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=100';
 
 export default function ProfilePage() {
   const { user, profile, signOut } = useAuth();
@@ -31,10 +31,18 @@ export default function ProfilePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="flex flex-col lg:flex-row gap-10">
           <aside className="w-full lg:w-72 flex-shrink-0">
-            <ProfileSidebar selected={tab} onSelect={(t) => setTab(t)} />
-            <button onClick={handleSignOut} className="w-full mt-4 flex items-center gap-3 p-3 text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-lg text-left font-medium transition duration-150">
-              <LogOut size={20} /> Sign Out
-            </button>
+            <div className="sticky top-24">
+              <div className="flex flex-col min-h-[calc(100vh-6rem)]">
+                <div>
+                  <ProfileSidebar selected={tab} onSelect={(t) => setTab(t)} />
+                </div>
+                <div className="mt-4">
+                  <button onClick={handleSignOut} className="w-full flex items-center gap-3 p-3 text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-lg text-left font-medium transition duration-150">
+                    <LogOut size={20} /> Sign Out
+                  </button>
+                </div>
+              </div>
+            </div>
           </aside>
 
           <main className="flex-1">

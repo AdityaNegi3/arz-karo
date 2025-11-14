@@ -1,7 +1,4 @@
 // src/data/mockEvents.ts
-// src/data/mockEvents.ts
-
-// src/data/mockEvents.ts
 
 import { Event } from '../pages/EventDetailPage';
 
@@ -14,6 +11,8 @@ export type MockEventItem = Omit<Event, 'artist_name'> & {
   banner_image_url?: string;
   // NEW FIELD for map integration
   map_embed_url?: string; // Optional: Google Maps Embed URL for the venue
+  // NEW FIELD for image gallery
+  gallery_images?: string[]; 
 };
 
 // --- MOCK ARTISTS (For EventsPage & Artist Profiles) ---
@@ -43,6 +42,8 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     contact: 'support@shivamevents.com',
     // ADDED: Using a mock URL for the map embed
     map_embed_url: `https://maps.app.goo.gl/XocrznF7i3mCtuyX8?g_st=ipc`,
+    // NEW: Gallery Images for this event (Ensure these paths are valid in your public folder)
+    // gallery_images: ['/image1.jpg', '/image2.jpg', '/image3.jpg', '/image4.jpg', '/image5.jpg'],
   },
   {
     id: 'evt-10',
@@ -72,48 +73,9 @@ Let’s get loud, weird, and unapologetically us. 🤘",
     contact: 'info@arzevents.net',
     // ADDED: Using a mock URL for the map embed
     map_embed_url: `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY_HERE&q=DLF+Cyber+City`,
+    gallery_images: ['/gallery1.jpeg'],
+    // NOTE: gallery_images is omitted here, so the gallery section will not be visible for this event.
   },
+  
   // ... (other events)
-
-  // {
-  //   id: 'evt-11',
-  //   ... (other events)
-  // },
-
-  // {
-  //   id: 'evt-11',
-  //   title: 'Hip to the Hop',
-  //   // CRUCIAL CHANGE: artist_name is now an array for multi-act shows
-  //   artist_name: ['Kinshu', 'Rajat', 'Raahi', 'Gauntlet'], 
-  //   city: 'Bengaluru',
-  //   venue: 'Concrete Jungle',
-  //   event_date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5).toISOString(),
-  //   image_url: '/mock3.jpg', // Listing Poster
-  //   banner_image_url: '/banner.jpg', // Detail Page Banner
-  //   ticket_price: 799,
-  //   member_count: 450,
-  //   genre: 'hiphop',
-  //   description: "Welcome to a night built for pure hip-hop culture. Hip to the Hop brings together some of the most exciting names in the scene — Kinshu, Rajat, Raahi, and Gauntlet — all on one stage.",
-  //   includes: ["General Entry", "Access to all 4 acts", "Group Chat Access"],
-  //   notes: ["Show starts promptly at 8 PM.", "Wear comfortable shoes - standing room only.", "Venue has limited capacity, book early."],
-  //   contact: 'contact@hophop.in',
-  // },
-  // {
-  //   id: 'evt-12',
-  //   title: 'Post Malone Listening Party',
-  //   // CRUCIAL CHANGE: artist_name is now an array for multi-act shows
-  //   artist_name: ['Niyam', 'DJ Maverick'],
-  //   city: 'Hyderabad',
-  //   venue: 'The Vibe Lounge',
-  //   event_date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 12).toISOString(),
-  //   image_url: '/mock4.jpg', // Listing Poster
-  //   banner_image_url: '/banner.jpg', // Detail Page Banner
-  //   ticket_price: 550,
-  //   member_count: 310,
-  //   genre: 'pop',
-  //   description: "Calling all Posty fans. We’re hosting an exclusive Post Malone Listening Party featuring curated sets and fan-favourite tracks played by Niyam and DJ Maverick.",
-  //   includes: ["Entry to The Vibe Lounge", "Complimentary non-alcoholic drink", "Exclusive DJ set"],
-  //   notes: ["Strictly 21+ event.", "Dress code: Casual chic.", "Doors open at 6:30 PM."],
-  //   contact: 'vibelounge@party.com',
-  // },
 ];

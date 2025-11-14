@@ -31,6 +31,8 @@ export type Event = {
   contact: string;
   member_count?: number;
   map_embed_url?: string; 
+  // NEW: Optional field for the image gallery
+  gallery_images?: string[]; 
 };
 
 export type Artist = {
@@ -173,8 +175,6 @@ export default function EventDetailPage({
 ];
 
   // --- Map Component Logic ---
-  // FIX: Removed the check for (currentEvent.venue.toLowerCase() === currentEvent.city.toLowerCase())
-  // This allows unique venue names to display correctly even if the city name was briefly used as a placeholder
   const isVenuePlaceholder = currentEvent.venue.toLowerCase().includes('announced soon') 
     || currentEvent.venue.toLowerCase().includes('venue to be announced'); 
 
@@ -209,6 +209,9 @@ export default function EventDetailPage({
   if (!currentEvent || !currentEvent.title || !(currentEvent.banner_image_url || currentEvent.image_url)) {
     return <div className="p-10 text-center text-xl text-red-600">Error: Event data is missing or invalid.</div>;
   }
+  
+  // NEW: Check for gallery images
+  const hasGalleryImages = currentEvent.gallery_images && currentEvent.gallery_images.length > 0;
 
 
   return (
@@ -260,6 +263,25 @@ export default function EventDetailPage({
               {/* Used the new ReadMoreText component */}
               <ReadMoreText text={currentEvent.description} />
             </section>
+            
+            {/* NEW: Image Gallery Section - Renders only if gallery_images is present */}
+            {hasGalleryImages && (
+              <section className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                <h3 className="text-2xl font-bold mb-4">Event Glimpses</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {currentEvent.gallery_images!.map((image, index) => (
+                    <div key={index} className="aspect-square overflow-hidden rounded-lg shadow-md hover:opacity-90 transition duration-300">
+                      <img
+                        src={image}
+                        alt={`Event image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {artists.length > 0 && (
               <section className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
