@@ -48,7 +48,7 @@ export default function ProfilePage() {
           <main className="flex-1">
             <div className="flex items-center justify-between mb-8">
               <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-800">
-                {tab === 'about' ? 'About me' : tab === 'past' ? 'Past trips' : 'Connections'}
+                {tab === 'about' ? 'About me' : tab === 'past' ? 'Past Experiences' : 'Connections'}
               </h1>
               {tab === 'about' && (
                 <button onClick={() => setOpenEdit(true)} className="inline-flex items-center gap-2 btn-primary">
@@ -112,7 +112,7 @@ export default function ProfilePage() {
             {tab === 'past' && (
               <section className="py-16 flex flex-col items-center text-center airbnb-card p-8">
                 <p className="text-gray-500 mb-4 max-w-lg">You'll find your past reservations here after you've taken your first trip on our platform.</p>
-                <button className="btn-primary">Book a trip</button>
+                {/* <button className="btn-primary">Book a trip</button> */}
               </section>
             )}
 

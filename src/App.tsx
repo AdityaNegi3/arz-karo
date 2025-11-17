@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState, useEffect, useCallback } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext.tsx';
 
@@ -401,10 +400,11 @@ function AppContent() {
         onChatClick={handleNavbarChatClick}
       />
 
-      {/* Spacer for fixed navbar */}
-      <div className="h-24" />
-
-      <main className="flex-grow">
+      {/* FIXED: Removed the old <div className="h-24" /> spacer.
+        The main content wrapper now applies responsive top padding (pt-16 and md:pt-20) 
+        to push content below the fixed Navbar, solving the overlap issue.
+      */}
+      <main className="flex-grow pt-16 md:pt-20">
         {currentPage === 'home' && <HomePage onNavigate={() => handleNavigate('home')} />}
 
         {currentPage === 'events' && (

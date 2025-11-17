@@ -25,7 +25,7 @@ export default function ProfileSidebar({ selected, onSelect }: Props) {
 
         <div className={itemClass(selected === 'past')} onClick={() => onSelect('past')}>
           <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700"><MapPin size={16} /></div>
-          <div>Past trips</div>
+          <div>Past Experiences</div>
         </div>
 
         <div className={itemClass(selected === 'connections')} onClick={() => onSelect('connections')}>
