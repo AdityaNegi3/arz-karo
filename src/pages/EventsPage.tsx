@@ -641,12 +641,12 @@ export default function EventsPage({ onEventSelect, onChatOpen }: EventsPageProp
                       placeholderHeight={typeof window !== 'undefined' && window.innerWidth <= 640 ? '240px' : '256px'}
                     />
 
-                    {/* <div className="absolute left-3 bottom-3 bg-black-85 text-white px-3 py-1 rounded-md text-sm flex items-center gap-2">
+                    <div className="absolute left-3 bottom-3 bg-black-85 text-white px-3 py-1 rounded-md text-sm flex items-center gap-2">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                         <path d="M16 11c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm-8 0c1.657 0 3-1.343 3-3S9.657 5 8 5 5 6.343 5 8s1.343 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5C13 14.17 8.33 13 8 13zm8 0c-.29 0-1.78.14-2.72.52.86.9 2.1 1.48 3.72 1.48 2.33 0 7 1.17 7 3.5V20h-8.72C16.22 18.14 16 15 16 15z" />
                       </svg>
                       <span className="font-medium">{(event.member_count ?? 0).toLocaleString()} members</span>
-                    </div> */}
+                    </div>
 
                     <div className="absolute right-3 top-3 flex items-center gap-2">
                       <button
