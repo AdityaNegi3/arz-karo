@@ -36,6 +36,9 @@ const artistNameToArray = (name: string | string[]): string[] => {
 // Lazy image component with IntersectionObserver + framer-motion
 // This defers setting the `src` until the image container is in view, which
 // reduces initial page-network churn and improves perceived load speed.
+// Improvements added: `priority` prop (for above-the-fold images) and larger rootMargin
+// so images begin loading earlier. Also adds a basic srcSet/sizes fallback so the browser
+// can select an appropriate resource.
 // --------------------
 
 const LazyImage: React.FC<{
@@ -44,14 +47,15 @@ const LazyImage: React.FC<{
   className?: string;
   style?: React.CSSProperties;
   placeholderHeight?: number | string;
-}> = ({ src, alt = '', className = '', style, placeholderHeight = '240px' }) => {
+  priority?: boolean; // if true, mark as high priority (eager load)
+}> = ({ src, alt = '', className = '', style, placeholderHeight = '240px', priority = false }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState<boolean>(priority); // if priority, load immediately
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (!ref.current) return;
-    if (shouldLoad) return; // already loading
+    if (shouldLoad) return; // already loading (or priority)
 
     const node = ref.current;
 
@@ -65,7 +69,8 @@ const LazyImage: React.FC<{
         });
       },
       {
-        rootMargin: '200px', // start loading a bit before it enters
+        // start loading a bit earlier for smoother UX on fast scrolls
+        rootMargin: '400px',
         threshold: 0.01,
       }
     );
@@ -75,6 +80,14 @@ const LazyImage: React.FC<{
     return () => observer.disconnect();
   }, [ref, shouldLoad]);
 
+  // Build a conservative srcSet if possible (best-effort; falls back to src)
+  // If your real images support query params like ?w=, replace this logic with proper URLs.
+  const srcSet = src
+    ? `${src} 400w, ${src} 800w, ${src} 1200w`
+    : undefined;
+
+  const sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw';
+
   return (
     <div ref={ref} style={{ minHeight: placeholderHeight, position: 'relative', overflow: 'hidden' }}>
       {shouldLoad && src ? (
@@ -83,9 +96,11 @@ const LazyImage: React.FC<{
           alt={alt}
           className={className + (loaded ? ' loaded' : '')}
           style={{ width: '100%', height: '100%', objectFit: 'cover', ...style }}
-          loading="lazy"
+          loading={priority ? 'eager' : 'lazy'}
           decoding="async"
-          fetchPriority="low"
+          fetchPriority={priority ? 'high' : 'low'}
+          srcSet={srcSet}
+          sizes={sizes}
           initial={{ opacity: 0, scale: 1.02 }}
           animate={{ opacity: loaded ? 1 : 0.98, scale: 1 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
@@ -620,7 +635,7 @@ export default function EventsPage({ onEventSelect, onChatOpen }: EventsPageProp
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {visibleEvents.map((event) => (
+              {visibleEvents.map((event, index) => (
                 <motion.article
                   key={event.id}
                   onClick={() => onEventSelect(event.id)}
@@ -637,6 +652,7 @@ export default function EventsPage({ onEventSelect, onChatOpen }: EventsPageProp
                     <LazyImage
                       src={event.image_url}
                       alt={event.title}
+                      priority={index < 6} // first 6 images are higher priority
                       className={`w-full object-cover ${typeof window !== 'undefined' && window.innerWidth <= 640 ? 'event-image-mobile' : 'h-48 sm:h-64'}`}
                       placeholderHeight={typeof window !== 'undefined' && window.innerWidth <= 640 ? '240px' : '256px'}
                     />
