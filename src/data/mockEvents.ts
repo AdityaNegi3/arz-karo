@@ -30,7 +30,7 @@ export const ALL_MOCK_EVENTS: MockEventItem[] = [
     title: 'Shivam Performing Live',
     artist_name: 'Shivam', // Single artist remains a string
     city: 'Gurugram',
-    venue: 'The Vibe Lounge', // <--- CHANGED to a real venue name for testing announced state
+    venue: 'The Pran', // <--- CHANGED to a real venue name for testing announced state
     event_date: new Date("2025-12-30T00:00:00.000Z").toISOString(),
     event_time_range: '9:00 PM - 11:00 PM',
     image_url: '/shivamposter.jpeg', // Listing Poster
